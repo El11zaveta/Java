@@ -1,11 +1,19 @@
 package ru.safronova.api.homeWork;
 
-import java.util.Scanner;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.logging.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+import java.util.logging.XMLFormatter;
 
 public class homeworks {
 
@@ -29,6 +37,7 @@ public class homeworks {
             System.out.println("5 - Ex.5");
             System.out.println("6 - Ex.6");
             System.out.println("7 - Ex.7");
+            System.out.println("8 - Ex.8");
             System.out.println("0 - Exit");
             System.out.println("__________________________________");
             int num = Integer.parseInt(scanner.nextLine());
@@ -65,6 +74,10 @@ public class homeworks {
 
                 case 7:
                     ex7();
+                    break;
+
+                case 8:
+                    ex8();
                     break;
 
                 default:
@@ -268,4 +281,62 @@ public class homeworks {
         System.out.println("Не решено");
     }
 
+    //Пусть дан произвольный список целых чисел.
+    //1) Нужно удалить из него чётные числа
+    //2) Найти минимальное значение
+    //3) Найти максимальное значение
+    //4) Найти среднее значение
+
+    static void deleteEvens(List<Integer>arrList){
+        for (int i=0; i< arrList.size()-1; i++){
+            if (arrList.get(i)%2 == 0){
+                arrList.remove(i);
+            }
+        }
+        System.out.println("Остаток после удаления чётный чисел: " + arrList);
+    }
+    
+
+    static Integer MinNum(List<Integer>arrList){
+        int min = arrList.get(0);
+        for (int i=0; i < arrList.size()-1; i++){
+            if (arrList.get(i) < min){
+                min = arrList.get(i);
+            }
+        }
+        return min;
+    }
+
+    static Integer MaxNum(List<Integer>arrList){
+        int max = arrList.get(0);
+        for (int i=0; i < arrList.size()-1; i++){
+            if (arrList.get(i) > max){
+                max = arrList.get(i);
+            }
+        }
+        return max;
+    }
+
+    static Double Median(List<Integer>arrList){
+        int sum = 0;
+        double Median;
+        for (int i=0; i < arrList.size()-1; i++){
+            sum += arrList.get(i);
+        }
+        Median = sum/arrList.size();
+        return Median;
+    }
+
+        public static void ex8(){
+        List<Integer> list_num = new ArrayList(Arrays.asList(4, 263, 6, 92, 458, 36, 4, 37, 157, 30));
+        System.out.println("Изначальный список: " + list_num);
+        System.out.println("Минимальное значение: " + MinNum(list_num));
+        System.out.println("Максимальное значение: " + MaxNum(list_num));
+        System.out.println("Среднее значение: " + Median(list_num));
+        deleteEvens(list_num);
+    }
+
 }
+
+
+
