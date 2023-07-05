@@ -14,16 +14,15 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.XMLFormatter;
+import java.util.Stack;
+import java.util.LinkedList;
+
 
 public class homeworks {
 
     static Scanner scanner = new Scanner(System.in);
     private static Object lib;
 
-    /**
-     * @param args
-     * @throws Exception
-     */
     public static void main(String[] args) throws Exception {
 
         boolean f = true;
@@ -38,6 +37,8 @@ public class homeworks {
             System.out.println("6 - Ex.6");
             System.out.println("7 - Ex.7");
             System.out.println("8 - Ex.8");
+            System.out.println("9 - Ex.9");
+            System.out.println("10 - Ex.10");
             System.out.println("0 - Exit");
             System.out.println("__________________________________");
             int num = Integer.parseInt(scanner.nextLine());
@@ -56,7 +57,7 @@ public class homeworks {
                     ex2();
                     break;
 
-                case 3: //добавлено логирование
+                case 3: // добавлено удаление последней операции
                     ex3();
                     break;
 
@@ -78,6 +79,14 @@ public class homeworks {
 
                 case 8:
                     ex8();
+                    break;
+
+                case 9:
+                    ex9();
+                    break;
+
+                case 10:
+                    ex10();
                     break;
 
                 default:
@@ -130,8 +139,8 @@ public class homeworks {
     // Реализовать простой калькулятор
 
     static void ex3(){
-
-    Logger logger = Logger.getLogger(homeworks.class.getName());
+   
+        Logger logger = Logger.getLogger(homeworks.class.getName());
 
         LogManager.getLogManager().reset();
         logger.setLevel(Level.ALL);
@@ -142,6 +151,8 @@ public class homeworks {
         Scanner scanner = new Scanner(System.in);
         double num1, num2;
         String operator;
+
+        Stack<String> operationsStack = new Stack<>(); 
 
         System.out.print("Введите первое число: ");
         num1 = scanner.nextDouble();
@@ -157,22 +168,38 @@ public class homeworks {
             case "+":
                 result = num1 + num2;
                 logger.log(Level.INFO, "Выполнено сложение " + num1 + " + " + num2);
+                operationsStack.push("+" + num2);
                 break;
             case "-":
                 result = num1 - num2;
                 logger.log(Level.INFO, "Выполнено вычитание " + num1 + " - " + num2);
+                operationsStack.push("-" + num2);
                 break;
             case "*":
                 result = num1 * num2;
                 logger.log(Level.INFO, "Выполнено умножение " + num1 + " * " + num2);
+                operationsStack.push("*" + num2);
                 break;
             case "/":
                 if (num2 != 0) {
                     result = num1 / num2;
                     logger.log(Level.INFO, "Выполнено деление " + num1 + " / " + num2);
+                    operationsStack.push("/" + num2);
                 } else {
                     isValidOperator = false;
                     logger.log(Level.SEVERE, "Деление на ноль недопустимо!");
+                }
+                break;
+            case "delete":
+                if (!operationsStack.isEmpty()) {
+                    String lastOperation = operationsStack.pop();
+                    operator = lastOperation.substring(0, 1);
+                    num2 = Double.parseDouble(lastOperation.substring(1));
+                    isValidOperator = false; 
+                    logger.log(Level.INFO, "Отменена операция: " + num1 + " " + operator + " " + num2);
+                } else {
+                    isValidOperator = false;
+                    logger.log(Level.WARNING, "Нет операций для отмены!");
                 }
                 break;
             default:
@@ -187,8 +214,8 @@ public class homeworks {
         } else {
             System.out.println("Что-то пошло не так. Пожалуйста, проверьте введенные данные.");
         }
+}
 
-    }
 
 
     // Задано уравнение вида q + w = e, q, w, e >= 0. Некоторые цифры могут быть
@@ -281,53 +308,52 @@ public class homeworks {
         System.out.println("Не решено");
     }
 
-    //Пусть дан произвольный список целых чисел.
-    //1) Нужно удалить из него чётные числа
-    //2) Найти минимальное значение
-    //3) Найти максимальное значение
-    //4) Найти среднее значение
+    // Пусть дан произвольный список целых чисел.
+    // 1) Нужно удалить из него чётные числа
+    // 2) Найти минимальное значение
+    // 3) Найти максимальное значение
+    // 4) Найти среднее значение
 
-    static void deleteEvens(List<Integer>arrList){
-        for (int i=0; i< arrList.size()-1; i++){
-            if (arrList.get(i)%2 == 0){
+    static void deleteEvens(List<Integer> arrList) {
+        for (int i = 0; i < arrList.size() - 1; i++) {
+            if (arrList.get(i) % 2 == 0) {
                 arrList.remove(i);
             }
         }
         System.out.println("Остаток после удаления чётный чисел: " + arrList);
     }
-    
 
-    static Integer MinNum(List<Integer>arrList){
+    static Integer MinNum(List<Integer> arrList) {
         int min = arrList.get(0);
-        for (int i=0; i < arrList.size()-1; i++){
-            if (arrList.get(i) < min){
+        for (int i = 0; i < arrList.size() - 1; i++) {
+            if (arrList.get(i) < min) {
                 min = arrList.get(i);
             }
         }
         return min;
     }
 
-    static Integer MaxNum(List<Integer>arrList){
+    static Integer MaxNum(List<Integer> arrList) {
         int max = arrList.get(0);
-        for (int i=0; i < arrList.size()-1; i++){
-            if (arrList.get(i) > max){
+        for (int i = 0; i < arrList.size() - 1; i++) {
+            if (arrList.get(i) > max) {
                 max = arrList.get(i);
             }
         }
         return max;
     }
 
-    static Double Median(List<Integer>arrList){
+    static Double Median(List<Integer> arrList) {
         int sum = 0;
         double Median;
-        for (int i=0; i < arrList.size()-1; i++){
+        for (int i = 0; i < arrList.size() - 1; i++) {
             sum += arrList.get(i);
         }
-        Median = sum/arrList.size();
+        Median = sum / arrList.size();
         return Median;
     }
 
-        public static void ex8(){
+    public static void ex8() {
         List<Integer> list_num = new ArrayList(Arrays.asList(4, 263, 6, 92, 458, 36, 4, 37, 157, 30));
         System.out.println("Изначальный список: " + list_num);
         System.out.println("Минимальное значение: " + MinNum(list_num));
@@ -336,7 +362,47 @@ public class homeworks {
         deleteEvens(list_num);
     }
 
+
+
+    // Пусть дан LinkedList с несколькими элементами. Реализуйте метод, который вернет “перевернутый” список.
+    
+    static void ex9() {
+
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        linkedList.add(1);
+        linkedList.add(2);
+        linkedList.add(3);
+        linkedList.add(4);
+        
+        System.out.println("Исходный список: " + linkedList);
+        
+        LinkedList<Integer> reversedList = reverseLinkedList(linkedList);
+        
+        System.out.println("Перевернутый список: " + reversedList);
+    }
+    
+    public static <T> LinkedList<T> reverseLinkedList(LinkedList<T> list) {
+        LinkedList<T> reversedList = new LinkedList<>();
+        
+        for (int i = list.size() - 1; i >= 0; i--) {
+            reversedList.add(list.get(i));
+        }
+        
+        return reversedList;
+    }
+
+
+    //Реализуйте очередь с помощью LinkedList со следующими методами:
+    //enqueue() - помещает элемент в конец очереди,
+    //dequeue() - возвращает первый элемент из очереди и удаляет его,
+    //first() - возвращает первый элемент из очереди, не удаляя.
+
+    static void ex10(){
+        System.out.println("Не выполнено.");
 }
+}
+
+
 
 
 
