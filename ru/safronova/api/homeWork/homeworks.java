@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,8 @@ public class homeworks {
 
     static Scanner scanner = new Scanner(System.in);
     private static Object lib;
+    private Map<String, List<String>> directory;
+
 
     public static void main(String[] args) throws Exception {
 
@@ -400,7 +403,20 @@ public class homeworks {
     static void ex10(){
         System.out.println("Не выполнено.");
 }
+
+
+   
+
+
+
+
+
 }
+
+
+
+
+
 
 
 
